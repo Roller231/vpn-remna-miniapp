@@ -4,52 +4,40 @@ import './ProfilePage.css'
 const ProfilePage = () => {
   const { user } = useTelegram()
 
+  const handleCopyId = () => {
+    if (user?.id) {
+      navigator.clipboard.writeText(user.id.toString())
+        .then(() => {
+          console.log('ID copied to clipboard')
+        })
+        .catch(err => {
+          console.error('Failed to copy ID: ', err)
+        })
+    }
+  }
+
   return (
     <div className="profile-page">
-      <div className="page-header">
-        <h1>Профиль</h1>
-      </div>
-
-      <div className="profile-content">
-        <div className="profile-card">
-          <div className="profile-avatar">
-            {user?.first_name?.[0] || 'U'}
-          </div>
-          <h2 className="profile-name">
-            {user?.first_name || 'Пользователь'} {user?.last_name || ''}
+      <div className="user-card">
+        <div className="user-avatar">
+          {user?.first_name?.[0] || 'U'}
+        </div>
+        
+        <div className="user-info">
+          <h2 className="user-name">
+            {user?.first_name || 'Пользователь'}
           </h2>
-          {user?.username && (
-            <p className="profile-username">@{user.username}</p>
-          )}
+          <p className="user-id">
+            id: {user?.id || '—'}
+          </p>
         </div>
-
-        <div className="balance-card">
-          <div className="balance-header">
-            <span>Баланс</span>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-              <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </div>
-          <div className="balance-amount">199 ₽</div>
-          <button className="btn-topup">Пополнить</button>
-        </div>
-
-        <div className="info-section">
-          <h3>Информация</h3>
-          <div className="info-item">
-            <span>ID пользователя</span>
-            <span className="info-value">{user?.id || '—'}</span>
-          </div>
-          <div className="info-item">
-            <span>Дата регистрации</span>
-            <span className="info-value">1 апреля 2026</span>
-          </div>
-          <div className="info-item">
-            <span>Статус подписки</span>
-            <span className="info-value status-trial">Пробный период</span>
-          </div>
-        </div>
+        
+        <button className="copy-button" onClick={handleCopyId}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" strokeWidth="2"/>
+          </svg>
+        </button>
       </div>
     </div>
   )

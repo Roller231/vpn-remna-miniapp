@@ -88,8 +88,8 @@
 .static-circle {
   position: relative;
   z-index: 10;
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   background: rgba(133, 181, 221, 0.1);
   backdrop-filter: blur(10px);
@@ -104,8 +104,8 @@
 }
 
 .rozet-logo {
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 120px;
   object-fit: contain;
   filter: brightness(1.2);
 }
