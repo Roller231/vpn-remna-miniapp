@@ -1,0 +1,126 @@
+.profile-page {
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(180deg, #1a3a4a 0%, #0d1f2d 100%);
+}
+
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-card {
+  background: rgba(133, 181, 221, 0.1);
+  border: 1px solid rgba(133, 181, 221, 0.2);
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+  margin: 0 auto 16px;
+}
+
+.profile-name {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.profile-username {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+.balance-card {
+  background: linear-gradient(135deg, rgba(133, 181, 221, 0.15), rgba(79, 195, 247, 0.15));
+  border: 1px solid rgba(133, 181, 221, 0.3);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.balance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.balance-header svg {
+  color: var(--primary-color);
+}
+
+.balance-amount {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.btn-topup {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-topup:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(133, 181, 221, 0.3);
+}
+
+.info-section {
+  background: rgba(133, 181, 221, 0.1);
+  border: 1px solid rgba(133, 181, 221, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.info-section h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 16px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(133, 181, 221, 0.1);
+  color: var(--text-primary);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-value {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.status-trial {
+  color: var(--accent-color);
+}

@@ -1,0 +1,117 @@
+.support-page {
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(180deg, #1a3a4a 0%, #0d1f2d 100%);
+}
+
+.support-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.support-card {
+  background: rgba(133, 181, 221, 0.1);
+  border: 1px solid rgba(133, 181, 221, 0.2);
+  border-radius: 16px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.support-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.support-card h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.support-card p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.btn-contact {
+  width: 100%;
+  max-width: 300px;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-contact:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(133, 181, 221, 0.3);
+}
+
+.faq-section {
+  background: rgba(133, 181, 221, 0.1);
+  border: 1px solid rgba(133, 181, 221, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.faq-section h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.faq-item {
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(133, 181, 221, 0.1);
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-item h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.faq-item p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.contact-info {
+  background: rgba(133, 181, 221, 0.1);
+  border: 1px solid rgba(133, 181, 221, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+}
+
+.contact-info p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin: 8px 0;
+}

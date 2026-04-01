@@ -1,0 +1,215 @@
+.main-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px 100px;
+  background: linear-gradient(180deg, #1a3a4a 0%, #0d1f2d 100%);
+}
+
+.status-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  margin-top: 40px;
+}
+
+.connection-circle {
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 30px;
+  transition: all 0.5s ease;
+}
+
+.connection-circle::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0.3;
+}
+
+.connection-circle.connected::before {
+  opacity: 1;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.connection-circle.connecting {
+  animation: rotate 1.5s linear infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.circle-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(133, 181, 221, 0.2), rgba(13, 31, 45, 0.8));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: all 0.5s ease;
+}
+
+.connection-circle.connected .circle-inner {
+  color: var(--primary-color);
+  background: radial-gradient(circle at 30% 30%, rgba(133, 181, 221, 0.3), rgba(13, 31, 45, 0.9));
+}
+
+.status-info {
+  text-align: center;
+}
+
+.subscription-date {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.status-text {
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: lowercase;
+}
+
+.status-text.online {
+  color: var(--primary-color);
+}
+
+.status-text.offline {
+  color: var(--offline-text);
+}
+
+.trial-badge {
+  background: rgba(133, 181, 221, 0.15);
+  border: 1px solid rgba(133, 181, 221, 0.3);
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  text-transform: lowercase;
+}
+
+.action-buttons {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: auto;
+}
+
+.btn-primary,
+.btn-secondary {
+  width: 100%;
+  padding: 16px 24px;
+  border-radius: 16px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  color: white;
+  box-shadow: 0 4px 20px rgba(133, 181, 221, 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(133, 181, 221, 0.4);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: rgba(133, 181, 221, 0.1);
+  color: var(--text-primary);
+  border: 1px solid rgba(133, 181, 221, 0.3);
+}
+
+.btn-secondary:hover {
+  background: rgba(133, 181, 221, 0.15);
+  border-color: rgba(133, 181, 221, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+.footer-info {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.footer-info p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+@media (max-width: 380px) {
+  .connection-circle {
+    width: 200px;
+    height: 200px;
+  }
+
+  .subscription-date {
+    font-size: 20px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    font-size: 14px;
+    padding: 14px 20px;
+  }
+}
