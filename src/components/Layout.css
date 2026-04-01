@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
   background: #0f2331;
+  position: relative;
+  overflow: hidden;
 }
 
 .main-content {
@@ -10,4 +12,6 @@
   height: auto;
   overflow-y: auto;
   padding-bottom: calc(max(var(--bottom-nav-safe, 96px), 120px) + env(safe-area-inset-bottom));
+  position: relative;
+  z-index: 1;
 }

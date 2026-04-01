@@ -1,7 +1,7 @@
 .settings-page {
   min-height: 100%;
   padding: 20px 20px calc(16px + var(--bottom-nav-height, 80px));
-  background: #0f2331;
+  background: transparent;
 }
 
 .page-header {
