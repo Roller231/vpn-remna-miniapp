@@ -72,9 +72,6 @@ const MainPage = () => {
         </button>
       </div>
 
-      <div className="footer-info">
-        <p>@ultimavpnbot</p>
-      </div>
     </div>
   )
 }

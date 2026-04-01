@@ -42,3 +42,14 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+/* Hide scrollbars globally (keep scrolling functional) */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0; /* Chrome/Safari/Edge */
+}
