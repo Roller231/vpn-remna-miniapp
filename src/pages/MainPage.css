@@ -1,10 +1,11 @@
 .main-page {
-  min-height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 28px 20px 24px;
   background: transparent;
+  overflow: hidden;
 }
 
 .status-section {
@@ -95,8 +96,8 @@
 
 @keyframes expandingWave {
   0% {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     opacity: 0.8;
   }
   50% {
@@ -141,19 +142,42 @@
 
 .status-info {
   text-align: center;
+  margin-bottom: 20px;
+}
+
+.date-trial-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
 }
 
 .subscription-date {
   font-size: 24px;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin: 0;
+}
+
+.trial-badge {
+  display: inline-block;
+  background: rgba(133, 181, 221, 0.2);
+  color: var(--primary-color);
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid rgba(133, 181, 221, 0.3);
+  white-space: nowrap;
 }
 
 .status-text {
   font-size: 16px;
   font-weight: 500;
   text-transform: lowercase;
+  margin: 0;
 }
 
 .status-text.online {
@@ -162,17 +186,6 @@
 
 .status-text.offline {
   color: var(--offline-text);
-}
-
-.trial-badge {
-  background: rgba(133, 181, 221, 0.15);
-  border: 1px solid rgba(133, 181, 221, 0.3);
-  border-radius: 20px;
-  padding: 8px 20px;
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin-bottom: 40px;
-  text-transform: lowercase;
 }
 
 .action-buttons {

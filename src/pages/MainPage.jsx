@@ -34,23 +34,22 @@ const MainPage = () => {
             <div className="circle-wave circle-wave-4"></div>
           </div>
           <div className="logo-container">
-            <img src="/src/public/img/logo.png" alt="VPN Logo" className="vpn-logo" />
+            <img src="/img/logo.png" alt="VPN Logo" className="vpn-logo" />
             {isConnected && <div className="connection-indicator"></div>}
           </div>
         </div>
 
         <div className="status-info">
-          <h2 className="subscription-date">
-            до {formatDate(subscriptionEndDate)}
-          </h2>
+          <div className="date-trial-row">
+            <h2 className="subscription-date">
+              до {formatDate(subscriptionEndDate)}
+            </h2>
+            <span className="trial-badge">пробный период</span>
+          </div>
           <p className={`status-text ${isConnected ? 'online' : 'offline'}`}>
             {isConnected ? 'online' : 'offline'}
           </p>
         </div>
-      </div>
-
-      <div className="trial-badge">
-        пробный период
       </div>
 
       <div className="action-buttons">
