@@ -42,7 +42,6 @@ const SupportPage = () => {
 
         <div className="contact-info">
           <p>Email: support@vpnremna.com</p>
-          <p>Telegram: @ultimavpnbot</p>
         </div>
       </div>
     </div>

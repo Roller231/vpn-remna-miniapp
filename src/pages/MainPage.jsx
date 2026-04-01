@@ -27,13 +27,15 @@ const MainPage = () => {
     <div className="main-page">
       <div className="status-section">
         <div className={`connection-circle ${isConnected ? 'connected' : 'disconnected'} ${isConnecting ? 'connecting' : ''}`}>
-          <div className="circle-inner">
-            <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M40 20C28.9543 20 20 28.9543 20 40C20 51.0457 28.9543 60 40 60C51.0457 60 60 51.0457 60 40C60 28.9543 51.0457 20 40 20Z" fill="currentColor" fillOpacity="0.2"/>
-              <path d="M40 25C31.7157 25 25 31.7157 25 40C25 48.2843 31.7157 55 40 55C48.2843 55 55 48.2843 55 40C55 31.7157 48.2843 25 40 25Z" fill="currentColor" fillOpacity="0.3"/>
-              <path d="M40 30C34.4772 30 30 34.4772 30 40C30 45.5228 34.4772 50 40 50C45.5228 50 50 45.5228 50 40C50 34.4772 45.5228 30 40 30Z" fill="currentColor"/>
-              <path d="M35 38L38 41L45 34" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" opacity={isConnected ? "1" : "0"}/>
-            </svg>
+          <div className="expanding-circles">
+            <div className="circle-wave circle-wave-1"></div>
+            <div className="circle-wave circle-wave-2"></div>
+            <div className="circle-wave circle-wave-3"></div>
+            <div className="circle-wave circle-wave-4"></div>
+          </div>
+          <div className="logo-container">
+            <img src="/src/public/img/logo.png" alt="VPN Logo" className="vpn-logo" />
+            {isConnected && <div className="connection-indicator"></div>}
           </div>
         </div>
 
