@@ -35,12 +35,24 @@ body {
   color: var(--text-primary);
   min-height: 100dvh;
   overflow-y: hidden;
+  overflow-x: hidden;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
 }
 
 #root {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  touch-action: pan-y;
+  overflow-x: hidden;
+}
+
+/* Prevent horizontal swipe gestures globally */
+* {
+  touch-action: pan-y;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
 }
 
 /* Hide scrollbars globally (keep scrolling functional) */
