@@ -39,18 +39,19 @@ const MainPage = () => {
           </div>
         </div>
 
-        <div className="status-info">
-          <h2 className="subscription-date">
-            до {formatDate(subscriptionEndDate)}
-          </h2>
-          <p className={`status-text ${isConnected ? 'online' : 'offline'}`}>
-            {isConnected ? 'online' : 'offline'}
-          </p>
+        <div className="status-info-container">
+          <div className="status-left">
+            <h2 className="subscription-date">
+              до {formatDate(subscriptionEndDate)}
+            </h2>
+            <p className={`status-text ${isConnected ? 'online' : 'offline'}`}>
+              {isConnected ? 'online' : 'offline'}
+            </p>
+          </div>
+          <div className="trial-badge">
+            пробный период
+          </div>
         </div>
-      </div>
-
-      <div className="trial-badge">
-        пробный период
       </div>
 
       <div className="action-buttons">
@@ -59,7 +60,7 @@ const MainPage = () => {
           onClick={handleConnect}
           disabled={isConnecting}
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
             <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
           </svg>
@@ -67,7 +68,7 @@ const MainPage = () => {
         </button>
 
         <button className="btn-secondary">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
           Установка и настройка
