@@ -3,21 +3,25 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 12px 16px max(12px, env(safe-area-inset-bottom));
   z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
+  pointer-events: none; /* do not block interactions outside ellipse */
+  height: 0; /* wrapper has no visual box */
 }
  
 
 .nav-container {
-  position: relative;
+  position: fixed; /* place ellipse independently */
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(12px + env(safe-area-inset-bottom));
   display: flex;
   justify-content: space-around;
   align-items: center;
   max-width: 500px;
-  width: 100%;
+  width: calc(100% - 32px);
   background: rgba(133, 181, 221, 0.08);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -27,6 +31,7 @@
   box-shadow:
     0 4px 20px rgba(0, 0, 0, 0.2),
     inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  pointer-events: auto; /* only ellipse is interactive */
 }
 
 .nav-indicator {

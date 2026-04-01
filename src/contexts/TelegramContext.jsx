@@ -12,6 +12,9 @@ export const TelegramProvider = ({ children }) => {
     if (tg) {
       tg.ready()
       tg.expand()
+      // Prevent accidental app dismiss by swipe and ask confirm on close
+      if (typeof tg.disableVerticalSwipes === 'function') tg.disableVerticalSwipes()
+      if (typeof tg.enableClosingConfirmation === 'function') tg.enableClosingConfirmation()
       setWebApp(tg)
       
       if (tg.initDataUnsafe?.user) {

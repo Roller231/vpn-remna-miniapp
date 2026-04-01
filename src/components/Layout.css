@@ -6,7 +6,8 @@
 }
 
 .main-content {
-  flex: 0 0 auto;
-  height: calc(100dvh - var(--bottom-nav-height, 80px));
+  flex: 1 1 auto;
+  height: auto;
   overflow-y: auto;
+  padding-bottom: calc(max(var(--bottom-nav-safe, 96px), 120px) + env(safe-area-inset-bottom));
 }

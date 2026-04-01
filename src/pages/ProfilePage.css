@@ -1,6 +1,6 @@
 .profile-page {
-  min-height: 100vh;
-  padding: 20px;
+  min-height: 100%;
+  padding: 20px 20px 24px;
   background: linear-gradient(180deg, #1a3a4a 0%, #0d1f2d 100%);
 }
 
