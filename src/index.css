@@ -48,20 +48,44 @@ body {
   overflow-x: hidden;
 }
 
-/* Prevent horizontal swipe gestures globally */
+/* Prevent horizontal swipe gestures and disable text selection globally */
 * {
   touch-action: pan-y;
   -webkit-user-drag: none;
   -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Hide scrollbars globally (keep scrolling functional) */
 * {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE 10+ */
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE 10+ */
 }
 
 *::-webkit-scrollbar {
-  width: 0;
-  height: 0; /* Chrome/Safari/Edge */
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important; /* Chrome/Safari/Edge */
+}
+
+/* Additional scrollbar hiding for Telegram WebApp */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+#root::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+}
+
+html {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+body {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }

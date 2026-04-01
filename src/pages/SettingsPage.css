@@ -1,7 +1,9 @@
 .settings-page {
-  min-height: 100%;
+  min-height: 100vh;
   padding: 20px 20px calc(16px + var(--bottom-nav-height, 80px));
   background: transparent;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 .page-header {

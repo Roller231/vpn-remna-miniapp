@@ -7,6 +7,11 @@
   overflow: hidden;
 }
 
+.layout::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+}
+
 .main-content {
   flex: 1 1 auto;
   height: auto;
@@ -14,4 +19,11 @@
   padding-bottom: calc(max(var(--bottom-nav-safe, 96px), 120px) + env(safe-area-inset-bottom));
   position: relative;
   z-index: 1;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.main-content::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
 }
