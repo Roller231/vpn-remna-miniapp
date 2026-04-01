@@ -23,10 +23,18 @@ const BottomNav = () => {
           const containerRect = navContainer.getBoundingClientRect()
           const buttonRect = activeButton.getBoundingClientRect()
 
-          const left = buttonRect.left - containerRect.left
-          const width = buttonRect.width
+          const hInset = 4 // small horizontal inset for a perfect visual fit
+          const left = buttonRect.left - containerRect.left + hInset
+          const width = Math.max(0, buttonRect.width - hInset * 2)
 
           setIndicatorStyle({ left: `${left}px`, width: `${width}px` })
+        }
+
+        // Set CSS var for bottom padding to exactly match nav height
+        const navEl = navContainer.parentElement
+        if (navEl) {
+          const height = navEl.getBoundingClientRect().height
+          document.documentElement.style.setProperty('--bottom-nav-height', `${height}px`)
         }
       }
     }
