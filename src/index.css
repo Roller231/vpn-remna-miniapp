@@ -43,16 +43,6 @@ body {
   flex-direction: column;
 }
 
-/* Disable text and image selection globally */
-* {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-touch-callout: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
 /* Hide scrollbars globally (keep scrolling functional) */
 * {
   scrollbar-width: none; /* Firefox */

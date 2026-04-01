@@ -40,16 +40,17 @@ const MainPage = () => {
         </div>
 
         <div className="status-info">
-          <div className="date-trial-row">
-            <h2 className="subscription-date">
-              до {formatDate(subscriptionEndDate)}
-            </h2>
-            <span className="trial-badge">пробный период</span>
-          </div>
+          <h2 className="subscription-date">
+            до {formatDate(subscriptionEndDate)}
+          </h2>
           <p className={`status-text ${isConnected ? 'online' : 'offline'}`}>
             {isConnected ? 'online' : 'offline'}
           </p>
         </div>
+      </div>
+
+      <div className="trial-badge">
+        пробный период
       </div>
 
       <div className="action-buttons">
