@@ -1,47 +1,77 @@
 import './SupportPage.css'
 
 const SupportPage = () => {
+  const handleFaqClick = () => {
+    console.log('FAQ clicked')
+  }
+
+  const handleDeviceSetupClick = () => {
+    console.log('Device setup clicked')
+  }
+
+  const handleSupportClick = () => {
+    console.log('Support contact clicked')
+  }
+
   return (
     <div className="support-page">
-      <div className="page-header">
-        <h1>Поддержка</h1>
+      <div className="main-support-block">
+        <div className="support-icon-large">
+          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" strokeWidth="2"/>
+            <path d="M8 9h8M8 13h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+        </div>
+        <h1 className="support-title">Связаться с поддержкой</h1>
+        <p className="support-description">
+          Получите ответы на популярные вопросы или обратитесь к нам за помощью
+        </p>
       </div>
 
-      <div className="support-content">
-        <div className="support-card">
-          <div className="support-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
-          <h2>Нужна помощь?</h2>
-          <p>Наша команда поддержки готова помочь вам 24/7</p>
-          <button className="btn-contact">
+      <div className="support-item" onClick={handleFaqClick}>
+        <div className="support-item-icon">
+          <div className="icon-container">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" strokeWidth="2"/>
+              <path d="M8 9h8M8 13h6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
             </svg>
-            Написать в поддержку
-          </button>
-        </div>
-
-        <div className="faq-section">
-          <h3>Частые вопросы</h3>
-          <div className="faq-item">
-            <h4>Как установить VPN?</h4>
-            <p>Нажмите на кнопку "Установка и настройка" на главной странице</p>
-          </div>
-          <div className="faq-item">
-            <h4>Как продлить подписку?</h4>
-            <p>Перейдите в профиль и нажмите "Пополнить баланс"</p>
-          </div>
-          <div className="faq-item">
-            <h4>Не работает подключение</h4>
-            <p>Проверьте настройки и попробуйте переподключиться</p>
           </div>
         </div>
+        <div className="support-item-content">
+          <h3>Часто задаваемые вопросы</h3>
+          <p>Ответы на часто задаваемые вопросы</p>
+        </div>
+      </div>
 
-        <div className="contact-info">
-          <p>Email: support@vpnremna.com</p>
+      <div className="support-item" onClick={handleDeviceSetupClick}>
+        <div className="support-item-icon">
+          <div className="icon-container">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
+              <line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" strokeWidth="2"/>
+              <line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" strokeWidth="2"/>
+            </svg>
+          </div>
+        </div>
+        <div className="support-item-content">
+          <h3>Установка на другом устройстве</h3>
+          <p>Подробная инструкция для установки</p>
+        </div>
+      </div>
+
+      <div className="support-item" onClick={handleSupportClick}>
+        <div className="support-item-icon">
+          <div className="icon-container">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" stroke="currentColor" strokeWidth="2"/>
+              <rect x="2" y="9" width="4" height="12" stroke="currentColor" strokeWidth="2"/>
+              <circle cx="4" cy="4" r="2" stroke="currentColor" strokeWidth="2"/>
+            </svg>
+          </div>
+        </div>
+        <div className="support-item-content">
+          <h3>Поддержка</h3>
+          <p>Связаться с поддержкой</p>
         </div>
       </div>
     </div>
