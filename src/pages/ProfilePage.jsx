@@ -1,19 +1,28 @@
+import { useState } from 'react'
 import { useTelegram } from '../contexts/TelegramContext'
+import { useApi } from '../contexts/ApiContext'
 import './ProfilePage.css'
 
 const ProfilePage = () => {
   const { user } = useTelegram()
+  const { subscription } = useApi()
+  const [urlCopied, setUrlCopied] = useState(false)
 
   const handleCopyId = () => {
     if (user?.id) {
       navigator.clipboard.writeText(user.id.toString())
-        .then(() => {
-          console.log('ID copied to clipboard')
-        })
-        .catch(err => {
-          console.error('Failed to copy ID: ', err)
-        })
+        .then(() => console.log('ID copied to clipboard'))
+        .catch(err => console.error('Failed to copy ID: ', err))
     }
+  }
+
+  const handleCopyUrl = () => {
+    const url = subscription?.subscription_url
+    if (!url) return
+    navigator.clipboard.writeText(url).then(() => {
+      setUrlCopied(true)
+      setTimeout(() => setUrlCopied(false), 2000)
+    })
   }
 
   return (
@@ -165,6 +174,20 @@ const ProfilePage = () => {
           </div>
         </div>
       </div>
+      {subscription?.subscription_url && (
+        <div className="sub-url-bar">
+          <button className="sub-url-card" onClick={handleCopyUrl}>
+            <div className="sub-url-text">{subscription.subscription_url}</div>
+            <div className="sub-url-copy">
+              {urlCopied
+                ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                : <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" strokeWidth="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" strokeWidth="2"/></svg>
+              }
+            </div>
+          </button>
+          <p className="sub-url-label">Ваша ссылка на подписку</p>
+        </div>
+      )}
     </div>
   )
 }
