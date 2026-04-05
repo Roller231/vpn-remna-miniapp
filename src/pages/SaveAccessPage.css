@@ -107,7 +107,7 @@
   cursor: default;
 }
 
-/* ── Login link section ── */
+/* ── Login link section (dark card, same style as step cards) ── */
 .sa-link-section {
   background: rgba(133, 181, 221, 0.06);
   border: 1px solid rgba(133, 181, 221, 0.12);
@@ -115,72 +115,41 @@
   padding: 16px 18px 18px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 14px;
 }
 
-.sa-link-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 0;
-}
-
-.sa-link-sub {
-  font-size: 13px;
-  color: var(--text-secondary);
-  opacity: 0.7;
-  line-height: 1.45;
-  margin: 0 0 6px;
-}
-
-.sa-link-card {
+.sa-link-row {
   display: flex;
   align-items: center;
   gap: 10px;
   width: 100%;
-  background: rgba(255, 255, 255, 0.96);
-  border-radius: 14px;
-  padding: 10px 10px 10px 16px;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(133, 181, 221, 0.12);
+  border-radius: 12px;
+  padding: 11px 12px;
   cursor: pointer;
   text-align: left;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
 }
 
-.sa-link-card:disabled {
-  opacity: 0.5;
+.sa-link-row:disabled {
+  opacity: 0.45;
   cursor: default;
 }
 
-.sa-link-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-
 .sa-link-text {
-  font-size: 13px;
+  flex: 1;
+  font-size: 12px;
   font-weight: 500;
-  color: #1a2535;
+  color: var(--text-primary);
+  opacity: 0.85;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.sa-link-sublabel {
-  font-size: 11px;
-  color: var(--primary-color);
-  opacity: 0.85;
-}
-
 .sa-link-copy {
   flex-shrink: 0;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: rgba(26, 37, 53, 0.07);
-  color: #1a2535;
+  color: rgba(133, 181, 221, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;

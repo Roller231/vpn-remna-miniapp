@@ -17,7 +17,7 @@ router = APIRouter(prefix="/referrals", tags=["referrals"])
 
 @lru_cache()
 def _resolve_bot_username() -> str:
-    username = (settings.TELEGRAM_BOT_USERNAME or "").lstrip("@")
+    username = (settings.TELEGRAM_BOT_USERNAME or "").strip().lstrip("@")
     if username:
         return username
     try:

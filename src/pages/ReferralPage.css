@@ -209,7 +209,7 @@
 /* ── Referral link bar (fixed above bottom nav) ── */
 .sub-url-bar {
   position: fixed;
-  bottom: calc(var(--bottom-nav-height, 80px) + 8px);
+  bottom: calc(var(--bottom-nav-height, 80px) + 20px);
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 32px);
