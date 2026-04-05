@@ -52,3 +52,5 @@ export const fetchReferralLink = () => get('/users/me/referral-link')
 export const fetchReferralStats = () => get('/referrals/stats')
 export const fetchLoginLink   = () => get('/users/me/login-link')
 export const fetchMySubscriptions = () => get('/subscriptions/my')
+export const fetchTransactions = (page = 1, pageSize = 20) =>
+  get(`/wallet/transactions?page=${page}&page_size=${pageSize}`)

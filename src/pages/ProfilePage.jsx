@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTelegram } from '../contexts/TelegramContext'
 import { useApi } from '../contexts/ApiContext'
 import './ProfilePage.css'
 
 const ProfilePage = () => {
+  const navigate = useNavigate()
   const { user } = useTelegram()
   const { subscription } = useApi()
   const [urlCopied, setUrlCopied] = useState(false)
@@ -57,7 +59,7 @@ const ProfilePage = () => {
         <div className="menu-items">
           <h3 className="menu-title">Настройки профиля</h3>
           
-          <div className="menu-item">
+          <div className="menu-item clickable" onClick={() => navigate('/balance')}>
             <div className="menu-icon">
               <div className="icon-container">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -67,12 +69,12 @@ const ProfilePage = () => {
               </div>
             </div>
             <div className="menu-content">
-              <h4>Способы оплаты</h4>
-              <p>Настройка способов оплаты</p>
+              <h4>Баланс и оплата</h4>
+              <p>Ваш баланс и способы оплаты</p>
             </div>
           </div>
 
-          <div className="menu-item">
+          <div className="menu-item clickable" onClick={() => navigate('/transactions')}>
             <div className="menu-icon">
               <div className="icon-container">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

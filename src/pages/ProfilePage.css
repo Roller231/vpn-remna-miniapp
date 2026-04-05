@@ -230,6 +230,147 @@
   color: var(--accent-color);
 }
 
+/* ── Clickable menu item ── */
+.menu-item.clickable {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.menu-item.clickable:active {
+  background: rgba(133, 181, 221, 0.08);
+}
+
+/* ── Profile bottom sheet (overlay + sheet) ── */
+.profile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: flex-end;
+  z-index: 200;
+}
+
+.profile-sheet {
+  width: 100%;
+  background: #1a2535;
+  border-radius: 24px 24px 0 0;
+  padding: 24px 20px calc(28px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-sheet-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.profile-sheet-heading {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.25;
+  margin: 0;
+}
+
+.profile-sheet-x {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: var(--text-primary);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Balance card */
+.balance-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 0 16px;
+}
+
+.balance-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+}
+
+.balance-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.balance-amount {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.balance-cashback {
+  font-size: 15px;
+  font-weight: 600;
+  color: #4cd080;
+}
+
+.balance-sep {
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+}
+
+/* Section title */
+.balance-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 4px 0 0;
+}
+
+/* Payment method rows */
+.balance-method {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.balance-method-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.balance-method-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.balance-method-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.balance-method-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
 /* ── Subscription URL banner (fixed above bottom nav) ── */
 .sub-url-bar {
   position: fixed;
