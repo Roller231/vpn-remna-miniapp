@@ -1,0 +1,29 @@
+# Web framework
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+python-multipart==0.0.12
+
+# Database
+SQLAlchemy==2.0.36
+aiomysql==0.2.0
+pymysql==1.1.1
+alembic==1.14.0
+
+# Settings & env
+pydantic==2.9.2
+pydantic-settings==2.6.1
+
+# Auth & security
+PyJWT==2.10.1
+bcrypt==4.2.1
+cryptography==46.0.6
+
+# HTTP client (Remnawave, Telegram, YooKassa)
+httpx==0.28.1
+
+# Telegram Bot
+aiogram==3.15.0
+
+# Utilities
+python-dateutil==2.9.0.post0
+pytz==2024.2

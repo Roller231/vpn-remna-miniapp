@@ -1,6 +1,15 @@
 # Dependencies
 node_modules/
 
+# Python backend
+backend/.venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/**/*.pyc
+backend/**/*.pyo
+backend/.mypy_cache/
+backend/.pytest_cache/
+
 # Claude local settings
 .claude/
 

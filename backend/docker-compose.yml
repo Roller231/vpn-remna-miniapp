@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    container_name: vpn-remna-api
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - vpn-net
+
+  mysql:
+    image: mysql:8.4
+    container_name: vpn-remna-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${DB_NAME:-vpnremna}
+      MYSQL_USER: ${DB_USER:-vpnremna}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-vpnremna}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD:-rootpassword}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - vpn-net
+
+volumes:
+  mysql_data:
+
+networks:
+  vpn-net:
+    driver: bridge
