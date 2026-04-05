@@ -10,6 +10,8 @@ from app.models.user import User
 from app.models.wallet import Wallet
 from app.schemas.user import UserProfile
 from app.services.wallet import wallet_service
+from functools import lru_cache
+import httpx
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -26,9 +28,26 @@ async def get_me(
     return result
 
 
+@lru_cache()
+def _resolve_bot_username() -> str:
+    username = (settings.TELEGRAM_BOT_USERNAME or "").lstrip("@")
+    if username:
+        return username
+    try:
+        with httpx.Client(timeout=5.0) as client:
+            r = client.get(f"https://api.telegram.org/bot{settings.TELEGRAM_BOT_TOKEN}/getMe")
+            data = r.json()
+            u = data.get("result", {}).get("username")
+            if u:
+                return u
+    except Exception:
+        pass
+    return settings.TELEGRAM_BOT_TOKEN.split(":")[0]
+
+
 @router.get("/me/referral-link")
 async def get_referral_link(user: User = Depends(get_current_user)):
-    bot_username = settings.TELEGRAM_BOT_USERNAME or settings.TELEGRAM_BOT_TOKEN.split(":")[0]
+    bot_username = _resolve_bot_username()
     return {"referral_link": f"https://t.me/{bot_username}?start=ref_{user.id}"}
 
 
