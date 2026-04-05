@@ -19,6 +19,7 @@ from app.schemas.subscription import (
 from app.services.subscription import subscription_service
 from app.services.wallet import wallet_service, InsufficientFundsError
 from app.services.yookassa import yookassa_service, YookassaError
+from app.services.referral import referral_service
 
 router = APIRouter(prefix="/subscriptions", tags=["subscriptions"])
 
@@ -73,6 +74,22 @@ async def purchase_subscription(
         raise HTTPException(status_code=status.HTTP_402_PAYMENT_REQUIRED, detail="Insufficient balance")
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+
+    # Award referral cashback for balance purchases
+    try:
+        plan_res = await db.execute(select(Plan).where(Plan.id == body.plan_id))
+        plan_obj = plan_res.scalar_one_or_none()
+        if plan_obj:
+            price = plan_obj.discount_price or plan_obj.price
+            await referral_service.award_cashback(
+                payment_amount=price,
+                invitee_id=user.id,
+                db=db,
+                duration_days=plan_obj.duration_days,
+            )
+    except Exception:
+        pass
+
     return SubscriptionOut.model_validate(sub)
 
 
@@ -124,6 +141,23 @@ async def renew_subscription(
         raise HTTPException(status_code=status.HTTP_402_PAYMENT_REQUIRED, detail="Insufficient balance")
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+
+    # Award referral cashback for balance renewals
+    if body.pay_from_balance:
+        try:
+            plan_res = await db.execute(select(Plan).where(Plan.id == sub.plan_id))
+            plan_obj = plan_res.scalar_one_or_none()
+            if plan_obj:
+                price = plan_obj.discount_price or plan_obj.price
+                await referral_service.award_cashback(
+                    payment_amount=price,
+                    invitee_id=user.id,
+                    db=db,
+                    duration_days=plan_obj.duration_days,
+                )
+        except Exception:
+            pass
+
     return SubscriptionOut.model_validate(sub)
 
 

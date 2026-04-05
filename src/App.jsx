@@ -9,6 +9,8 @@ import SupportPage from './pages/SupportPage'
 import PurchasePage from './pages/PurchasePage'
 import BalancePage from './pages/BalancePage'
 import TransactionsPage from './pages/TransactionsPage'
+import ReferralPage from './pages/ReferralPage'
+import SaveAccessPage from './pages/SaveAccessPage'
 import './App.css'
 
 function AppWithApi() {
@@ -26,6 +28,8 @@ function AppWithApi() {
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/balance" element={<BalancePage />} />
                 <Route path="/transactions" element={<TransactionsPage />} />
+                <Route path="/referrals" element={<ReferralPage />} />
+                <Route path="/save-access" element={<SaveAccessPage />} />
                 <Route path="/support" element={<SupportPage />} />
               </Routes>
             </Layout>

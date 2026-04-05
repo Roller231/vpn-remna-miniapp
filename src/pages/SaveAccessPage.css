@@ -1,0 +1,170 @@
+.sa-page {
+  min-height: 100vh;
+  padding: 24px 20px calc(20px + var(--bottom-nav-height, 80px));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Header card ── */
+.sa-header-card {
+  background: rgba(133, 181, 221, 0.08);
+  border: 1px solid rgba(133, 181, 221, 0.15);
+  border-radius: 20px;
+  padding: 24px 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sa-header-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(133, 181, 221, 0.15);
+  border: 1px solid rgba(133, 181, 221, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+}
+
+.sa-header-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.sa-header-sub {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* ── Step card ── */
+.sa-step-card {
+  background: rgba(133, 181, 221, 0.06);
+  border: 1px solid rgba(133, 181, 221, 0.12);
+  border-radius: 18px;
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sa-step-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.sa-step-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(133, 181, 221, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.sa-step-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 3px;
+}
+
+.sa-step-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* ── Green action button ── */
+.sa-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #4cd080, #2bb86a);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.sa-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ── Login link section ── */
+.sa-link-section {
+  background: rgba(133, 181, 221, 0.06);
+  border: 1px solid rgba(133, 181, 221, 0.12);
+  border-radius: 18px;
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sa-link-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.sa-link-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  opacity: 0.7;
+  line-height: 1.45;
+  margin: 0 0 6px;
+}
+
+.sa-link-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: rgba(20, 32, 50, 0.8);
+  border: 1px solid rgba(133, 181, 221, 0.18);
+  border-radius: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.sa-link-card:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.sa-link-text {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sa-link-copy {
+  flex-shrink: 0;
+  color: rgba(133, 181, 221, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

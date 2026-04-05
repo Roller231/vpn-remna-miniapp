@@ -35,10 +35,10 @@ class ReferralService:
     @staticmethod
     async def award_cashback(
         payment_amount: Decimal,
-        payment_id: int,
         invitee_id: int,
         db: AsyncSession,
         duration_days: int = 30,
+        payment_id: Optional[int] = None,
     ) -> Optional[ReferralReward]:
         """
         Award cashback to referrer when invitee makes a payment.

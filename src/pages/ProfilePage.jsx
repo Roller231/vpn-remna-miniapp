@@ -89,7 +89,7 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="menu-item">
+          <div className="menu-item clickable" onClick={() => navigate('/referrals')}>
             <div className="menu-icon">
               <div className="icon-container">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -105,7 +105,7 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <div className="menu-item">
+          <div className="menu-item clickable" onClick={() => navigate('/save-access')}>
             <div className="menu-icon">
               <div className="icon-container">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

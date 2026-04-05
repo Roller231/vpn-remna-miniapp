@@ -48,8 +48,10 @@ export const purchaseFromBalance = (planId) =>
 export const activateTrial = (planId) =>
   post('/subscriptions/trial', { plan_id: planId })
 
-export const fetchReferralLink = () => get('/users/me/referral-link')
-export const fetchReferralStats = () => get('/referrals/stats')
+export const fetchReferralLink  = () => get('/users/me/referral-link')
+export const fetchReferralStats  = () => get('/referrals/stats')
+export const fetchReferralRewards = (page = 1, pageSize = 20) =>
+  get(`/referrals/rewards?page=${page}&page_size=${pageSize}`)
 export const fetchLoginLink   = () => get('/users/me/login-link')
 export const fetchMySubscriptions = () => get('/subscriptions/my')
 export const fetchTransactions = (page = 1, pageSize = 20) =>
