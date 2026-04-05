@@ -30,7 +30,8 @@ export default function TransactionsPage() {
 
   useEffect(() => {
     setLoading(true)
-    fetchTransactions(page)
+    // Always request 20 items per page by default
+    fetchTransactions(page, 20)
       .then(data => {
         setItems(prev => page === 1 ? data.items : [...prev, ...data.items])
         setTotal(data.total)
@@ -40,6 +41,21 @@ export default function TransactionsPage() {
   }, [page])
 
   const hasMore = items.length < total
+
+  const handleShowAll = async () => {
+    if (loading || !hasMore) return
+    setLoading(true)
+    try {
+      const data = await fetchTransactions(1, total || 1000)
+      setItems(data.items || [])
+      setTotal(data.total ?? (data.items ? data.items.length : 0))
+      setPage(1)
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="tx-page">
@@ -99,8 +115,8 @@ export default function TransactionsPage() {
           })}
 
           {hasMore && (
-            <button className="tx-load-more" onClick={() => setPage(p => p + 1)} disabled={loading}>
-              {loading ? 'Загрузка…' : 'Загрузить ещё'}
+            <button className="tx-load-more" onClick={handleShowAll} disabled={loading}>
+              {loading ? 'Загрузка…' : 'Отобразить все'}
             </button>
           )}
         </div>
