@@ -33,7 +33,7 @@ async def get_catalog(db: AsyncSession = Depends(get_db)):
         .order_by(Product.sort_order)
     )
     products = list(result.scalars().all())
-    return [ProductOut.model_validate(p) for p in products]
+    return [ProductOut.model_validate(p) for p in products if p.plans]
 
 
 @router.get("/my", response_model=list[SubscriptionOut])
