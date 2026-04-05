@@ -5,6 +5,8 @@ const TelegramContext = createContext({})
 export const TelegramProvider = ({ children }) => {
   const [webApp, setWebApp] = useState(null)
   const [user, setUser] = useState(null)
+  const [platform, setPlatform] = useState(null)
+  const [isDesktop, setIsDesktop] = useState(false)
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp
@@ -16,6 +18,13 @@ export const TelegramProvider = ({ children }) => {
       if (typeof tg.disableVerticalSwipes === 'function') tg.disableVerticalSwipes()
       if (typeof tg.enableClosingConfirmation === 'function') tg.enableClosingConfirmation()
       setWebApp(tg)
+      const pf = tg.platform || (tg.initDataUnsafe?.platform) || 'web'
+      setPlatform(pf)
+      const desktop = ['tdesktop', 'macos', 'web'].includes(pf)
+      setIsDesktop(desktop)
+      try {
+        document.body.classList.toggle('tg-desktop', desktop)
+      } catch {}
       
       if (tg.initDataUnsafe?.user) {
         setUser(tg.initDataUnsafe.user)
@@ -29,6 +38,8 @@ export const TelegramProvider = ({ children }) => {
   const value = {
     webApp,
     user,
+    platform,
+    isDesktop,
     unsafeData: webApp?.initDataUnsafe,
   }
 
