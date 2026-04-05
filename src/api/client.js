@@ -28,6 +28,9 @@ const post = (path, body, auth = true) => request('POST', path, body, auth)
 export const authTelegram = (initData) =>
   post('/auth/telegram', { init_data: initData }, false)
 
+export const authWithToken = (token) =>
+  get(`/auth/t/${token}`, false)
+
 export const fetchMe = () => get('/users/me')
 export const fetchCatalog = () => get('/subscriptions/catalog', false)
 

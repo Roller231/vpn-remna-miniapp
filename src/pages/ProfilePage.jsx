@@ -1,14 +1,19 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTelegram } from '../contexts/TelegramContext'
 import { useApi } from '../contexts/ApiContext'
+import { fetchLoginLink } from '../api/client'
 import './ProfilePage.css'
 
 const ProfilePage = () => {
   const navigate = useNavigate()
   const { user } = useTelegram()
-  const { subscription } = useApi()
   const [urlCopied, setUrlCopied] = useState(false)
+  const [loginUrl, setLoginUrl]   = useState(null)
+
+  useEffect(() => {
+    fetchLoginLink().then(d => setLoginUrl(d?.login_url ?? null)).catch(() => {})
+  }, [])
 
   const handleCopyId = () => {
     if (user?.id) {
@@ -19,9 +24,8 @@ const ProfilePage = () => {
   }
 
   const handleCopyUrl = () => {
-    const url = subscription?.subscription_url
-    if (!url) return
-    navigator.clipboard.writeText(url).then(() => {
+    if (!loginUrl) return
+    navigator.clipboard.writeText(loginUrl).then(() => {
       setUrlCopied(true)
       setTimeout(() => setUrlCopied(false), 2000)
     })
@@ -176,18 +180,18 @@ const ProfilePage = () => {
           </div>
         </div>
       </div>
-      {subscription?.subscription_url && (
+      {loginUrl && (
         <div className="sub-url-bar">
           <button className="sub-url-card" onClick={handleCopyUrl}>
-            <div className="sub-url-text">{subscription.subscription_url}</div>
+            <div className="sub-url-text">{loginUrl}</div>
             <div className="sub-url-copy">
               {urlCopied
-                ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#2bb86a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 : <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" strokeWidth="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" strokeWidth="2"/></svg>
               }
             </div>
           </button>
-          <p className="sub-url-label">Ваша ссылка на подписку</p>
+          <p className="sub-url-label">Ваша ссылка на личный кабинет</p>
         </div>
       )}
     </div>

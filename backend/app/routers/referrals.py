@@ -19,9 +19,9 @@ async def get_referral_stats(
     db: AsyncSession = Depends(get_db),
 ):
     stats = await referral_service.get_stats(user.id, db)
-    bot_token_part = settings.TELEGRAM_BOT_TOKEN.split(":")[0]
+    bot_username = settings.TELEGRAM_BOT_USERNAME or settings.TELEGRAM_BOT_TOKEN.split(":")[0]
     return ReferralStatsOut(
-        referral_link=f"https://t.me/{bot_token_part}?start=ref_{user.id}",
+        referral_link=f"https://t.me/{bot_username}?start=ref_{user.id}",
         **stats,
     )
 

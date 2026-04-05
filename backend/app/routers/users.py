@@ -45,9 +45,10 @@ async def get_login_link(
     if not user.login_token:
         user.login_token = secrets.token_urlsafe(16)
         await db.flush()
+    frontend_url = settings.MINIAPP_URL.rstrip('/') or settings.APP_URL.rstrip('/')
     return {
         "login_token": user.login_token,
-        "login_url": f"{settings.APP_URL}/auth/t/{user.login_token}",
+        "login_url": f"{frontend_url}/?token={user.login_token}",
     }
 
 
@@ -59,7 +60,8 @@ async def regenerate_login_link(
     """Invalidates the old token and generates a new one."""
     user.login_token = secrets.token_urlsafe(16)
     await db.flush()
+    frontend_url = settings.MINIAPP_URL.rstrip('/') or settings.APP_URL.rstrip('/')
     return {
         "login_token": user.login_token,
-        "login_url": f"{settings.APP_URL}/auth/t/{user.login_token}",
+        "login_url": f"{frontend_url}/?token={user.login_token}",
     }

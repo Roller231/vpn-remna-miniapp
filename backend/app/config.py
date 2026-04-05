@@ -40,6 +40,7 @@ class Settings(BaseSettings):
 
     # ── Telegram ──────────────────────────────────────────────────────────────
     TELEGRAM_BOT_TOKEN: str
+    TELEGRAM_BOT_USERNAME: str = ""  # e.g. MyVPN_Bot (without @)
     TELEGRAM_WEBHOOK_SECRET: str = ""
 
     # ── Remnawave ─────────────────────────────────────────────────────────────

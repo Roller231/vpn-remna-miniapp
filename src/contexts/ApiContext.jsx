@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react'
-import { authTelegram, setToken, getToken, fetchMe, fetchCatalog, fetchMySubscriptions } from '../api/client'
+import { authTelegram, authWithToken, setToken, getToken, fetchMe, fetchCatalog, fetchMySubscriptions } from '../api/client'
 
 const ApiContext = createContext({})
 
@@ -37,6 +37,23 @@ export const ApiProvider = ({ children, webApp }) => {
   }, [])
 
   useEffect(() => {
+    // Priority 1: ?token= in URL (magic link from browser)
+    const urlToken = new URLSearchParams(window.location.search).get('token')
+    if (urlToken) {
+      setAuthState('loading')
+      authWithToken(urlToken)
+        .then(res => {
+          setToken(res.access_token)
+          setAuthState('ok')
+          loadUserData()
+          // Clean token from URL without reloading
+          window.history.replaceState({}, '', window.location.pathname)
+        })
+        .catch(e => { setAuthState('error'); setError(e.message) })
+      return
+    }
+
+    // Priority 2: Telegram WebApp initData
     if (!webApp) return
     const initData = webApp.initData
     if (!initData) {
