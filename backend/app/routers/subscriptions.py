@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 
 from app.config import settings
 from app.database import get_db
@@ -26,7 +27,10 @@ router = APIRouter(prefix="/subscriptions", tags=["subscriptions"])
 async def get_catalog(db: AsyncSession = Depends(get_db)):
     """Public catalog of active products with their plans."""
     result = await db.execute(
-        select(Product).where(Product.is_active == True).order_by(Product.sort_order)
+        select(Product)
+        .where(Product.is_active == True)
+        .options(selectinload(Product.plans))
+        .order_by(Product.sort_order)
     )
     products = list(result.scalars().all())
     return [ProductOut.model_validate(p) for p in products]

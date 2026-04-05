@@ -1,18 +1,16 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTelegram } from '../contexts/TelegramContext'
 import './MainPage.css'
 
 const MainPage = () => {
   const { user } = useTelegram()
+  const navigate = useNavigate()
   const [isConnected, setIsConnected] = useState(false)
   const [isConnecting, setIsConnecting] = useState(false)
 
   const handleConnect = async () => {
-    setIsConnecting(true)
-    setTimeout(() => {
-      setIsConnected(!isConnected)
-      setIsConnecting(false)
-    }, 1500)
+    navigate('/purchase')
   }
 
   const formatDate = (date) => {
