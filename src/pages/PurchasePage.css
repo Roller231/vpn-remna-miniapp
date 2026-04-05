@@ -134,51 +134,132 @@
   flex-shrink: 0;
 }
 
-/* ── Slider track ─────────────────────── */
-.pp-track-wrap {
-  padding: 0 4px;
-}
+/* ── Slider — "шарик в трубке" ────────────
+   Pill track 36px tall, full width
+   Thumb 26px — sits INSIDE the pill
+   Dots inset 18px from pill edges (JSX calc)  */
 
-.pp-track {
+.pp-slider-wrap {
   position: relative;
-  height: 10px;
-  background: rgba(133,181,221,0.14);
-  border-radius: 50px;
+  height: 44px;          /* tall touch target */
 }
 
-.pp-track-fill {
+/* Full-width pill */
+.pp-slider-track {
   position: absolute;
-  inset: 0 auto 0 0;
+  inset: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 36px;
   border-radius: 50px;
-  background: var(--primary-color);
-  transition: width 0.2s ease;
+  background: rgba(133,181,221,0.13);
+  border: 1px solid rgba(133,181,221,0.18);
+  overflow: hidden;
+  pointer-events: none;
 }
 
-/* Dots */
-.pp-dot {
+/* Coloured fill — grows from left to thumb right edge */
+.pp-slider-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  border-radius: 50px; /* rounded both sides so the fill has a smooth pill cap reaching the thumb */
+  background: linear-gradient(
+    90deg,
+    rgba(133,181,221,0.55) 0%,
+    rgba(133,181,221,0.75) 100%
+  );
+  transition: width 0.1s ease;
+}
+
+/* Snap-point markers */
+.pp-slider-dot {
   position: absolute;
   top: 50%;
-  transform: translate(-50%, -50%);
-  width: 10px;
-  height: 10px;
+  transform: translateY(-50%);
+  margin-left: -4px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: rgba(133,181,221,0.25);
+  background: rgba(15,35,49,0.35);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  pointer-events: none;
+  transition: all 0.15s ease;
+}
+/* Active dot: bright white, glowing ring — current selection marker */
+.pp-slider-dot.active {
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  background: rgba(255,255,255,0.95);
   border: none;
-  padding: 0;
+  box-shadow:
+    0 0 0 3px rgba(133,181,221,0.45),
+    0 0 8px  rgba(133,181,221,0.6);
+}
+
+/* Native range — full wrapper width, thumb aligns with fill */
+.pp-range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  margin: 0; padding: 0;
   cursor: pointer;
-  z-index: 2;
-  transition: all 0.18s ease;
+  z-index: 3;
+  touch-action: none;
 }
-.pp-dot.passed {
+
+/* Chrome/Safari track — transparent, full height */
+.pp-range::-webkit-slider-runnable-track {
+  background: transparent;
+  height: 44px;
+}
+/* Thumb: 26px — smaller than pill, floats inside */
+.pp-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width:  26px;
+  height: 26px;
+  margin-top: 9px;          /* (44 - 26) / 2 */
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 38% 35%,
+    rgba(255,255,255,0.55) 0%,
+    var(--primary-color) 55%
+  );
+  box-shadow:
+    0 2px 8px  rgba(0,0,0,0.45),
+    0 0 0 2px  rgba(255,255,255,0.25),
+    inset 0 1px 2px rgba(255,255,255,0.4);
+  cursor: grab;
+  transition: box-shadow 0.15s, transform 0.12s;
+}
+.pp-range::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.15);
+  box-shadow:
+    0 4px 16px rgba(0,0,0,0.5),
+    0 0 0 4px  rgba(133,181,221,0.35),
+    inset 0 1px 2px rgba(255,255,255,0.4);
+}
+
+/* Firefox */
+.pp-range::-moz-range-track {
+  background: transparent;
+  height: 44px;
+}
+.pp-range::-moz-range-thumb {
+  width:  26px;
+  height: 26px;
+  border-radius: 50%;
   background: var(--primary-color);
+  border: 2px solid rgba(255,255,255,0.3);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.45);
+  cursor: grab;
 }
-.pp-dot.active {
-  width: 20px;
-  height: 20px;
-  background: #fff;
-  border: 3px solid var(--primary-color);
-  box-shadow: 0 0 0 4px rgba(133,181,221,0.18);
-}
+.pp-range:focus { outline: none; }
 
 /* ── Duration grid 2×2 ────────────────── */
 .pp-grid {
@@ -307,7 +388,7 @@
 .pp-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0,0,0,0.6);
   display: flex;
   align-items: flex-end;
   z-index: 100;
@@ -315,49 +396,139 @@
 
 .pp-sheet {
   width: 100%;
-  background: var(--bg-gradient-start);
-  border: 1px solid var(--card-border);
+  background: #1a2535;
   border-radius: 24px 24px 0 0;
-  padding: 24px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+  padding: 24px 20px calc(28px + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-.pp-sheet-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-primary);
-  text-align: center;
+/* Header row: title left, × right */
+.pp-sheet-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   margin-bottom: 4px;
 }
+.pp-sheet-heading {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.25;
+  margin: 0;
+}
+.pp-sheet-x {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: var(--text-primary);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
 
-.pp-sheet-btn {
-  width: 100%;
-  padding: 16px 18px;
+/* Info card */
+.pp-sheet-info {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 14px;
-  border: 1px solid var(--card-border);
-  background: var(--card-bg);
+  padding: 0 16px;
+}
+.pp-sheet-info-row {
+  padding: 14px 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.pp-sheet-info-sep {
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+}
+
+/* Selected method row */
+.pp-sheet-method-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+.pp-sheet-method-icon { font-size: 20px; flex-shrink: 0; }
+.pp-sheet-method-label {
+  flex: 1;
+  font-size: 15px;
+  color: var(--text-primary);
+}
+.pp-sheet-method-dots {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0;
+  flex-shrink: 0;
+}
+
+/* Pay button — green pill like screenshot */
+.pp-sheet-pay {
+  width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #4cd080, #2bb86a);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(43,184,106,0.35);
+  transition: opacity 0.15s;
+}
+.pp-sheet-pay:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Method picker items */
+.pp-sheet-method-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 14px 16px;
   color: var(--text-primary);
   font-size: 15px;
-  font-weight: 500;
   cursor: pointer;
   text-align: left;
 }
-
-.pp-sheet-stars {
-  border-color: rgba(255,215,0,0.3);
-  background: rgba(255,215,0,0.05);
+.pp-sheet-method-item.sel {
+  border-color: rgba(133,181,221,0.4);
+  background: rgba(133,181,221,0.08);
 }
-
-.pp-sheet-cancel {
-  width: 100%;
-  padding: 14px;
-  border: none;
-  background: transparent;
-  color: var(--text-secondary);
-  font-size: 15px;
-  cursor: pointer;
-  opacity: 0.55;
-  border-radius: 14px;
+.pp-sheet-method-check {
+  margin-left: auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #2bb86a;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }

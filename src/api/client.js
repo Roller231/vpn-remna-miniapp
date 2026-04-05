@@ -37,6 +37,14 @@ export const purchaseWithYookassa = (planId, returnUrl) => {
   return post(`/subscriptions/purchase-with-yookassa?${p}`, null)
 }
 
+export const createStarsInvoice = (planId) => {
+  const p = new URLSearchParams({ plan_id: planId })
+  return post(`/subscriptions/create-stars-invoice?${p}`, null)
+}
+
+export const purchaseFromBalance = (planId) =>
+  post('/subscriptions/purchase', { plan_id: planId, pay_from_balance: true })
+
 export const activateTrial = (planId) =>
   post('/subscriptions/trial', { plan_id: planId })
 

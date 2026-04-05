@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApi } from '../contexts/ApiContext'
-import { purchaseWithYookassa } from '../api/client'
+import { purchaseWithYookassa, createStarsInvoice, purchaseFromBalance } from '../api/client'
 import AnimatedBackground from '../components/AnimatedBackground'
 import './PurchasePage.css'
 
@@ -30,11 +30,13 @@ export default function PurchasePage() {
   const durations = useMemo(() =>
     [...new Set(allPlans.map(p => p.duration_days))].sort((a, b) => a - b), [allPlans])
 
-  const [deviceIdx, setDeviceIdx]     = useState(0)
+  const [deviceIdx, setDeviceIdx]       = useState(0)
   const [selectedDays, setSelectedDays] = useState(null)
-  const [paying, setPaying]           = useState(false)
-  const [payError, setPayError]       = useState(null)
+  const [paying, setPaying]             = useState(false)
+  const [payError, setPayError]         = useState(null)
   const [showPaySheet, setShowPaySheet] = useState(false)
+  const [payMethod, setPayMethod]       = useState('yookassa')
+  const [showMethodPicker, setShowMethodPicker] = useState(false)
 
   const selectedDevices = deviceCounts[deviceIdx] ?? 1
 
@@ -62,6 +64,21 @@ export default function PurchasePage() {
     ? parseFloat(basePlan.price) * selectedDevices : null
   const hasStars  = selectedPlan?.price_stars > 0
 
+  const endDate = useMemo(() => {
+    if (!selectedPlan) return ''
+    const d = new Date()
+    d.setDate(d.getDate() + selectedPlan.duration_days)
+    return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })
+  }, [selectedPlan])
+
+  const payMethods = useMemo(() => [
+    { id: 'yookassa', label: 'ЮMoney / Банковская карта', icon: '💳' },
+    ...(hasStars ? [{ id: 'stars', label: `Telegram Stars — ${selectedPlan?.price_stars} ★`, icon: '⭐' }] : []),
+    { id: 'balance', label: 'Баланс приложения', icon: '👛' },
+  ], [hasStars, selectedPlan])
+
+  const currentMethod = payMethods.find(m => m.id === payMethod) ?? payMethods[0]
+
   const handlePay = async (method = 'yookassa') => {
     if (!selectedPlan) return
     setPaying(true); setPayError(null); setShowPaySheet(false)
@@ -69,8 +86,15 @@ export default function PurchasePage() {
       if (method === 'yookassa') {
         const res = await purchaseWithYookassa(selectedPlan.id, window.location.href)
         if (res.payment_url) window.location.href = res.payment_url
-      } else {
-        window.Telegram?.WebApp?.openInvoice?.(`/buy_stars_${selectedPlan.id}`)
+      } else if (method === 'balance') {
+        await purchaseFromBalance(selectedPlan.id)
+        navigate(-1)
+      } else if (method === 'stars') {
+        const { invoice_url } = await createStarsInvoice(selectedPlan.id)
+        window.Telegram?.WebApp?.openInvoice?.(invoice_url, (invoiceStatus) => {
+          if (invoiceStatus === 'paid') setPayError(null)
+          else if (invoiceStatus === 'failed') setPayError('Оплата звёздами не прошла')
+        })
       }
     } catch (e) { setPayError(e.message) }
     finally { setPaying(false) }
@@ -78,12 +102,30 @@ export default function PurchasePage() {
 
   const handlePayButton = () => {
     if (!selectedPlan) return
-    if (hasStars) { setShowPaySheet(true); return }
-    handlePay('yookassa')
+    setShowPaySheet(true)
   }
 
-  const sliderPct = deviceCounts.length <= 1
-    ? 100 : (deviceIdx / (deviceCounts.length - 1)) * 100
+  // THUMB_PX = 26  →  THUMB_R = 13
+  // Unified geometry: thumb center and dots share the same formula.
+  const THUMB_PX = 26
+  const THUMB_R  = THUMB_PX / 2   // 13
+  const PILL_H   = 36             // visual pill height
+
+  // Center position of current step (thumb/dot center)
+  const centerPos = deviceCounts.length <= 1
+    ? '50%'
+    : `calc(${deviceIdx} / ${deviceCounts.length - 1} * (100% - ${THUMB_PX}px) + ${THUMB_R}px)`
+
+  // Fill ends slightly past center (by THUMB_R) so its rounded cap sits under thumb edge.
+  // Ensure a minimum width = PILL_H to render a perfect circle at the first step.
+  const sliderFill = deviceCounts.length <= 1
+    ? '100%'
+    : `max(calc(${PILL_H}px - 15px), calc(${centerPos} + ${THUMB_R}px))`
+
+  function dotLeft(i, n) {
+    if (n <= 1) return '50%'
+    return `calc(${i} / ${n - 1} * (100% - ${THUMB_PX}px) + ${THUMB_R}px)`
+  }
 
   return (
     <div className="pp-root">
@@ -123,23 +165,29 @@ export default function PurchasePage() {
               )}
             </div>
 
-            {/* Track */}
-            <div className="pp-track-wrap">
-              <div className="pp-track">
-                <div className="pp-track-fill" style={{ width: `${sliderPct}%` }} />
-                {deviceCounts.map((_, i) => {
-                  const pos = deviceCounts.length <= 1
-                    ? 50 : (i / (deviceCounts.length - 1)) * 100
-                  return (
-                    <button
-                      key={i}
-                      className={`pp-dot${i < deviceIdx ? ' passed' : i === deviceIdx ? ' active' : ''}`}
-                      style={{ left: `${pos}%` }}
-                      onClick={() => { setDeviceIdx(i); setSelectedDays(null) }}
-                    />
-                  )
-                })}
+            {/* Draggable slider */}
+            <div className="pp-slider-wrap">
+              {/* Visual pill track */}
+              <div className="pp-slider-track">
+                <div className="pp-slider-fill" style={{ width: sliderFill }} />
+                {deviceCounts.map((_, i) => (
+                  <span
+                    key={i}
+                    className={`pp-slider-dot${i === deviceIdx ? ' active' : ''}`}
+                    style={{ left: dotLeft(i, deviceCounts.length) }}
+                  />
+                ))}
               </div>
+              {/* Native range — transparent track, styled thumb, handles dragging */}
+              <input
+                type="range"
+                className="pp-range"
+                min={0}
+                max={Math.max(0, deviceCounts.length - 1)}
+                step={1}
+                value={deviceIdx}
+                onChange={e => { setDeviceIdx(Number(e.target.value)); setSelectedDays(null) }}
+              />
             </div>
           </div>
 
@@ -208,21 +256,68 @@ export default function PurchasePage() {
 
       {/* ── Payment sheet ── */}
       {showPaySheet && (
-        <div className="pp-overlay" onClick={() => setShowPaySheet(false)}>
+        <div className="pp-overlay" onClick={() => { setShowPaySheet(false); setShowMethodPicker(false) }}>
           <div className="pp-sheet" onClick={e => e.stopPropagation()}>
-            <p className="pp-sheet-title">Способ оплаты</p>
-            <button className="pp-sheet-btn" onClick={() => handlePay('yookassa')}>
-              💳 Банковская карта / ЮMoney — {Math.round(price)} ₽
-            </button>
-            {hasStars && (
-              <button className="pp-sheet-btn pp-sheet-stars"
-                onClick={() => handlePay('stars')}>
-                ⭐ Telegram Stars — {selectedPlan.price_stars} Stars
+
+            {!showMethodPicker ? (<>
+              {/* Header */}
+              <div className="pp-sheet-header">
+                <h2 className="pp-sheet-heading">Подтверждение<br/>оплаты</h2>
+                <button className="pp-sheet-x" onClick={() => setShowPaySheet(false)}>✕</button>
+              </div>
+
+              {/* Info card */}
+              <div className="pp-sheet-info">
+                <div className="pp-sheet-info-row">
+                  Подписка до {endDate}, {DURATION_LABELS[activeDays] ?? `${activeDays} дн.`}
+                </div>
+                <div className="pp-sheet-info-sep" />
+                <div className="pp-sheet-info-row">
+                  Количество устройств: {selectedDevices}
+                </div>
+              </div>
+
+              {/* Selected method row */}
+              <div className="pp-sheet-method-row">
+                <span className="pp-sheet-method-icon">{currentMethod?.icon}</span>
+                <span className="pp-sheet-method-label">{currentMethod?.label}</span>
+                <button className="pp-sheet-method-dots" onClick={() => setShowMethodPicker(true)}>
+                  •••
+                </button>
+              </div>
+
+              {/* Pay button */}
+              <button
+                className="pp-sheet-pay"
+                onClick={() => handlePay(payMethod)}
+                disabled={paying}
+              >
+                {paying ? 'Оплата…' : (
+                  payMethod === 'stars'
+                    ? `Оплатить ${selectedPlan.price_stars} ★`
+                    : `Оплатить ${Math.round(price)} ₽`
+                )}
               </button>
-            )}
-            <button className="pp-sheet-cancel" onClick={() => setShowPaySheet(false)}>
-              Отмена
-            </button>
+            </>) : (<>
+              {/* Method picker sub-screen */}
+              <div className="pp-sheet-header">
+                <h2 className="pp-sheet-heading">Изменить способ<br/>оплаты</h2>
+                <button className="pp-sheet-x" onClick={() => setShowMethodPicker(false)}>✕</button>
+              </div>
+
+              {payMethods.map(m => (
+                <button
+                  key={m.id}
+                  className={`pp-sheet-method-item${payMethod === m.id ? ' sel' : ''}`}
+                  onClick={() => { setPayMethod(m.id); setShowMethodPicker(false) }}
+                >
+                  <span className="pp-sheet-method-icon">{m.icon}</span>
+                  <span className="pp-sheet-method-label">{m.label}</span>
+                  {payMethod === m.id && <span className="pp-sheet-method-check">✓</span>}
+                </button>
+              ))}
+            </>)}
+
           </div>
         </div>
       )}

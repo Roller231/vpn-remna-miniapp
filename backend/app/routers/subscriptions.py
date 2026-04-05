@@ -188,6 +188,50 @@ async def purchase_with_yookassa(
     }
 
 
+@router.post("/create-stars-invoice")
+async def create_stars_invoice(
+    plan_id: int,
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Create a Telegram Stars invoice link via Bot API createInvoiceLink.
+    Returns the invoice URL to pass to WebApp.openInvoice().
+    """
+    import httpx
+
+    plan_result = await db.execute(
+        select(Plan).where(Plan.id == plan_id, Plan.is_active == True)
+    )
+    plan = plan_result.scalar_one_or_none()
+    if not plan or not plan.price_stars:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Plan not found or has no Stars price",
+        )
+
+    async with httpx.AsyncClient(timeout=10) as client:
+        resp = await client.post(
+            f"https://api.telegram.org/bot{settings.TELEGRAM_BOT_TOKEN}/createInvoiceLink",
+            json={
+                "title": f"VPN: {plan.name}",
+                "description": f"{plan.duration_days} дней, {plan.devices} устр.",
+                "payload": f"plan_{plan.id}_user_{user.id}",
+                "currency": "XTR",
+                "prices": [{"label": plan.name, "amount": plan.price_stars}],
+            },
+        )
+
+    data = resp.json()
+    if not data.get("ok"):
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=f"Telegram API error: {data.get('description', 'unknown')}",
+        )
+
+    return {"invoice_url": data["result"]}
+
+
 @router.post("/toggle-auto-renewal/{subscription_id}")
 async def toggle_auto_renewal(
     subscription_id: int,
