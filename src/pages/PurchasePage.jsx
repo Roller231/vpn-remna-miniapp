@@ -1,7 +1,7 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useApi } from '../contexts/ApiContext'
-import { useTelegram } from '../contexts/TelegramContext'
+import { useTelegramBackButton } from '../hooks/useTelegramBackButton'
 import { purchaseWithYookassa, createStarsInvoice, purchaseFromBalance } from '../api/client'
 import AnimatedBackground from '../components/AnimatedBackground'
 import './PurchasePage.css'
@@ -22,7 +22,7 @@ function perMonth(price, days) {
 export default function PurchasePage() {
   const navigate = useNavigate()
   const { catalog, catalogLoading } = useApi()
-  const { webApp } = useTelegram()
+  useTelegramBackButton()
 
   const allPlans = useMemo(() => catalog.flatMap(p => p.plans || []), [catalog])
 
@@ -41,6 +41,8 @@ export default function PurchasePage() {
   const [showMethodPicker, setShowMethodPicker] = useState(false)
 
   const selectedDevices = deviceCounts[deviceIdx] ?? 1
+
+  // BackButton is managed by useTelegramBackButton hook above
 
   const activeDays = selectedDays ?? (
     durations.length > 0 ? (durations.includes(180) ? 180 : durations[0]) : 30

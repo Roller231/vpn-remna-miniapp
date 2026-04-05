@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 import { useApi } from '../contexts/ApiContext'
+import { useTelegramBackButton } from '../hooks/useTelegramBackButton'
 import './BalancePage.css'
 
 export default function BalancePage() {
   const navigate = useNavigate()
   const { apiUser, subscription } = useApi()
+  useTelegramBackButton()
 
   const balance  = (apiUser?.balance ?? 0).toFixed(2)
   const cashback = (apiUser?.total_cashback_earned ?? 0).toFixed(2)

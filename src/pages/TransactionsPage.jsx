@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { fetchTransactions } from '../api/client'
+import { useTelegramBackButton } from '../hooks/useTelegramBackButton'
 import './TransactionsPage.css'
 
 const TYPE_META = {
@@ -22,6 +23,7 @@ function formatDate(iso) {
 }
 
 export default function TransactionsPage() {
+  useTelegramBackButton()
   const [items, setItems]     = useState([])
   const [total, setTotal]     = useState(0)
   const [page, setPage]       = useState(1)
