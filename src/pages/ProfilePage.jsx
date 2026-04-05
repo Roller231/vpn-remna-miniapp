@@ -12,7 +12,12 @@ const ProfilePage = () => {
   const [loginUrl, setLoginUrl]   = useState(null)
 
   useEffect(() => {
-    fetchLoginLink().then(d => setLoginUrl(d?.login_url ?? null)).catch(() => {})
+    fetchLoginLink()
+      .then(d => {
+        if (d?.login_token) setLoginUrl(`${window.location.origin}/?token=${d.login_token}`)
+        else if (d?.login_url) setLoginUrl(d.login_url)
+      })
+      .catch(() => {})
   }, [])
 
   const handleCopyId = () => {
@@ -183,7 +188,10 @@ const ProfilePage = () => {
       {loginUrl && (
         <div className="sub-url-bar">
           <button className="sub-url-card" onClick={handleCopyUrl}>
-            <div className="sub-url-text">{loginUrl}</div>
+            <div className="sub-url-content">
+              <div className="sub-url-text">{loginUrl}</div>
+              <div className="sub-url-label">Ваша ссылка на личный кабинет</div>
+            </div>
             <div className="sub-url-copy">
               {urlCopied
                 ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#2bb86a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -191,7 +199,6 @@ const ProfilePage = () => {
               }
             </div>
           </button>
-          <p className="sub-url-label">Ваша ссылка на личный кабинет</p>
         </div>
       )}
     </div>

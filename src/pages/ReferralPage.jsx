@@ -122,15 +122,17 @@ export default function ReferralPage() {
       {stats?.referral_link && (
         <div className="sub-url-bar">
           <button className="sub-url-card" onClick={handleCopy}>
-            <div className="sub-url-text">{stats.referral_link}</div>
+            <div className="sub-url-content">
+              <div className="sub-url-text">{stats.referral_link}</div>
+              <div className="sub-url-label">Ваша реферальная ссылка</div>
+            </div>
             <div className="sub-url-copy">
               {copied
-                ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#2bb86a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                 : <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" strokeWidth="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" strokeWidth="2"/></svg>
               }
             </div>
           </button>
-          <p className="sub-url-label">Ваша реферальная ссылка</p>
         </div>
       )}
     </div>

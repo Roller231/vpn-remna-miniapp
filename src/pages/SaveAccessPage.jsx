@@ -14,7 +14,10 @@ export default function SaveAccessPage() {
 
   useEffect(() => {
     fetchLoginLink()
-      .then(data => setLoginUrl(data?.login_url ?? null))
+      .then(data => {
+        if (data?.login_token) setLoginUrl(`${window.location.origin}/?token=${data.login_token}`)
+        else if (data?.login_url) setLoginUrl(data.login_url)
+      })
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
@@ -81,12 +84,15 @@ export default function SaveAccessPage() {
           С помощью этой ссылки вы можете получить доступ к личному кабинету через браузер
         </p>
         <button className="sa-link-card" onClick={handleCopy} disabled={loading || !loginUrl}>
-          <span className="sa-link-text">
-            {loading ? 'Загрузка…' : (loginUrl ?? 'Ссылка недоступна')}
+          <span className="sa-link-content">
+            <span className="sa-link-text">
+              {loading ? 'Загрузка…' : (loginUrl ?? 'Ссылка недоступна')}
+            </span>
+            <span className="sa-link-sublabel">Ссылка на личный кабинет</span>
           </span>
           <span className="sa-link-copy">
             {copied
-              ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#2bb86a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               : <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" strokeWidth="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" strokeWidth="2"/></svg>
             }
           </span>

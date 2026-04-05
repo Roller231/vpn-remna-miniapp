@@ -28,7 +28,7 @@ async def get_me(
 
 @router.get("/me/referral-link")
 async def get_referral_link(user: User = Depends(get_current_user)):
-    bot_username = settings.TELEGRAM_BOT_TOKEN.split(":")[0]
+    bot_username = settings.TELEGRAM_BOT_USERNAME or settings.TELEGRAM_BOT_TOKEN.split(":")[0]
     return {"referral_link": f"https://t.me/{bot_username}?start=ref_{user.id}"}
 
 
